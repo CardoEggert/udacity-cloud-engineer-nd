@@ -1,0 +1,14 @@
+[
+	{
+		"ParameterKey": "EnvironmentName",
+		"ParameterValue": "UdacityProject"
+	},
+    {
+      	"ParameterKey": "AMItoUse",
+      	"ParameterValue": "ami-061dbd1209944525c"
+    },
+	{
+		"ParameterKey": "BucketName",
+		"ParameterValue": "user-572273378566-project-bucket"
+	}
+]
