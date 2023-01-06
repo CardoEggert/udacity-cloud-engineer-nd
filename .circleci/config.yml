@@ -5,8 +5,12 @@ version: 2.1
 commands:
   print_pipeline_id:
     description: "Print pipeline id"
+    parameters:
+      prefix:
+        type: string
+        default: "CircleCI workflow id is "
     steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
+      - run: echo <<parameters.prefix>> $CIRCLE_WORKFLOW_ID
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -32,7 +36,8 @@ jobs:
       - run:
           name: "Output the text"
           command: cat ~/output.txt 
-      - print_pipeline_id
+      - print_pipeline_id:
+         prefix: "After output prefix"
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
