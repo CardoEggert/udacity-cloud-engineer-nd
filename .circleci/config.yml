@@ -11,9 +11,9 @@ jobs:
     steps:
       - run:
           name: "Save text to text file"
-          command: echo "hello world" > workspace/output.txt
+          command: echo "hello world" > ~/output.txt
       - persist_to_workspace:
-          root: workspace
+          root: ~/
           paths:
             - output.txt
   print_output_file:
@@ -21,10 +21,10 @@ jobs:
       - image: cimg/base:stable
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/
       - run:
           name: "Output the text"
-          command: cat output.txt 
+          command: cat ~/output.txt 
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
