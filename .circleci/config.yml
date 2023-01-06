@@ -11,7 +11,7 @@ jobs:
     steps:
       - run:
           name: "Make a on_fail event happen"
-          command: return 1
+          command: exit(1)
       - run:
           name: "Run this on failure only"
           command: echo "Failure happened!"
@@ -26,7 +26,7 @@ jobs:
     steps:
       - run:
           name: "Make a on_success event happen"
-          command: return 0
+          command: exit(0)
       - run:
           name: "Run this on failure only"
           command: echo "Failure happened!"
