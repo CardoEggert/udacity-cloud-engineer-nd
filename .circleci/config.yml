@@ -7,14 +7,14 @@ version: 2.1
 jobs:
   print_hello:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:13.8.0
     steps:
       - run:
           name: "Say hello"
           command: "echo hello"
   print_world:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:13.8.0
     steps:
       - run:
           name: "Say world"
