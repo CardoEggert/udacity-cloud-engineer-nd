@@ -26,7 +26,9 @@ jobs:
     docker:
       - image: cimg/node:13.8.0
     steps:
-      - run: "echo My name is << MY_NAME_IS >>"
+      - run: 
+          name: "Print env variable for my name"
+          command: echo My name is ${MY_NAME_IS}
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
