@@ -11,11 +11,11 @@ jobs:
     steps:
       - run:
           name: "Save text to text file"
-          command: echo "hello world" > output.txt
+          command: echo "hello world" > workspace/output.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: workspace
           paths:
-            - "output.txt"
+            - output.txt
   print_output_file:
     docker:
       - image: cimg/base:stable
