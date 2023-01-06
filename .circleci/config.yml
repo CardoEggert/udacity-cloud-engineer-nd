@@ -2,49 +2,44 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-commands:
-  print_pipeline_id:
-    description: "Print pipeline id"
-    parameters:
-      prefix:
-        type: string
-        default: "CircleCI workflow id is "
-    steps:
-      - run: echo <<parameters.prefix>> $CIRCLE_WORKFLOW_ID
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  save_hello_world_output:
+  failingJob:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:13.8.0
     steps:
       - run:
-          name: "Save text to text file"
-          command: echo "hello world" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
-      - print_pipeline_id
-  print_output_file:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - attach_workspace:
-          at: ~/
+          name: "Make a on_fail event happen"
+          command: return 1
       - run:
-          name: "Output the text"
-          command: cat ~/output.txt 
-      - print_pipeline_id:
-         prefix: "After output prefix"
+          name: "Run this on failure only"
+          command: echo "Failure happened!"
+          when: on_fail
+      - run:
+          name: "Run this on success only"
+          command: echo "Success happened!"
+          when: on_success
+  passingJob:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - run:
+          name: "Make a on_success event happen"
+          command: return 0
+      - run:
+          name: "Run this on failure only"
+          command: echo "Failure happened!"
+          when: on_fail
+      - run:
+          name: "Run this on success only"
+          command: echo "Success happened!"
+          when: on_success
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  try_out_sharing_workspace:
+  try_out_on_fail:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - failingJob
+      - passingJob
