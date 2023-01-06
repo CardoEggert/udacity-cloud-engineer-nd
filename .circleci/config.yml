@@ -19,14 +19,14 @@ jobs:
           command: "echo Hello, World!"
   print_hello:
     docker:
-      -image: circleci/node:13.8.0
+      - image: cimg/node:lts
     steps:
       - run:
           name: "Say hello"
           command: "echo hello"
   print_world:
     docker:
-      -image: circleci/node:13.8.0
+      - image: cimg/node:lts
     steps:
       - run:
           name: "Say world"
@@ -42,5 +42,5 @@ workflows:
     jobs:
       - print_hello
       - print_world:
-        required:
+        requires:
           - print_hello
