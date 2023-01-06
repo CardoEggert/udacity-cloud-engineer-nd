@@ -1,47 +1,37 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  print_hello:
+  save_hello_world_output:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/base:stable
     steps:
       - run:
-          name: "Say hello"
-          command: "echo hello"
-  print_world:
+          name: "Save text to text file"
+          command: echo "hello world" > output.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - "output.txt"
+  print_output_file:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/base:stable
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
-          name: "Say world"
-          command: "echo world"
-  print_env_variable:
-    docker:
-      - image: cimg/node:13.8.0
-    steps:
-      - run: 
-          name: "Print env variable for my name"
-          command: echo My name is ${MY_NAME_IS}
-
+          name: "Output the text"
+          command: cat output.txt 
+      
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  try_out_orb_wf:
+  try_out_sharing_workspace:
     jobs:
-      - welcome/run
-  hello_world_wf:
-    jobs:
-      - print_hello
-      - print_world:
-          requires:
-              - print_hello
-  print_env_name_wf:
-    jobs:
-      - print_env_variable
+      - save_hello_world_output
+      - print_output_file
+        requires:
+          - save_hello_world_output
