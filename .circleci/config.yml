@@ -21,6 +21,10 @@ jobs:
       - attach_workspace:
           at: ~/
       - aws-cli/install
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID 
+          aws-region: AWS_DEFAULT_REGION 
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           name: "Add new IPs to inventory file"
           command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" >> ~/inventory
