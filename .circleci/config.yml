@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            ansible-playbook -o StrictHostKeyChecking=no -i CI:CD/exercise-config-and-deployment/inventory CI:CD/exercise-config-and-deployment/main-remote.yml 
+            ansible-playbook --ssh-extra-args StrictHostKeyChecking=no -i CI:CD/exercise-config-and-deployment/inventory CI:CD/exercise-config-and-deployment/main-remote.yml 
 # Sequential workflow
 workflows:
   # Name the workflow
