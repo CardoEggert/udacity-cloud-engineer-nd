@@ -51,7 +51,7 @@ jobs:
 # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: alpine:latest
+      - image: amazon/aws-cli # cannot use alpine because fallback requires aws cli
     steps:
       - checkout
       - run:
