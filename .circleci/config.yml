@@ -27,7 +27,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           name: "Add new IPs to inventory file"
-          command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" >> ~/inventory
+          command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --region ${AWS_DEFAULT_REGION} --output text >> ~/inventory
       - run:
           name: "Print out file contents"
           command: cat ~/inventory
