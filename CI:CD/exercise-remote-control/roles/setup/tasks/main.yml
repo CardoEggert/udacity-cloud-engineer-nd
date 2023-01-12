@@ -13,20 +13,27 @@
   apt:
     upgrade: yes
 
-- name: "install NodeJS"
+- name: "Remove dependencies that are no longer required"
   become: yes
   apt:
-    name: nodejs
-    update_cache: true
+    autoremove: yes
 
-- name: "install NPM"
+- name: "install NodeJS and npm"
   become: yes
   apt:
-    name: npm
+    name: ["nodejs", "npm"]
+    state: latest
     update_cache: true
 
-- name: "install pm2"
-  shell: npm install pm2 -g
+#- name: "install pm2"
+#  shell: npm install pm2 -g
+- name: install pm2"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
 
 - name: "create a ~/web directory"
   file:
@@ -39,4 +46,5 @@
     dest: ~/web/index.js
 
 - name: "Start the web server using the command pm2 start ~/web/index.js -f"
-  shell: pm2 start ~/web/index.js
+  shell: |
+    pm2 start ~/web/index.js -f
