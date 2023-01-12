@@ -20,6 +20,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - aws-cli/install
       - run:
           name: "Add new IPs to inventory file"
           command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" >> ~/inventory
