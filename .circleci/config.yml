@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            ansible-playbook -i CI:CD/exercise-config-and-deployment/inventory CI:CD/exercise-config-and-deploymentmain-remote.yml
+            ansible-playbook -i CI:CD/exercise-config-and-deployment/inventory CI:CD/exercise-config-and-deployment/main-remote.yml
 # Sequential workflow
 workflows:
   # Name the workflow
