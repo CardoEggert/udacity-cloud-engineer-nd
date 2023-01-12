@@ -20,12 +20,9 @@ jobs:
           command: |
             apk add --update ansible
       - run:
-          name: Export host key checking to false
-          command: |
-            export ANSIBLE_HOST_KEY_CHECKING=False
-      - run:
           name: Run Playbook and Configure server
           command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook --ssh-extra-args StrictHostKeyChecking=no -i CI:CD/exercise-config-and-deployment/inventory CI:CD/exercise-config-and-deployment/main-remote.yml 
 # Sequential workflow
 workflows:
