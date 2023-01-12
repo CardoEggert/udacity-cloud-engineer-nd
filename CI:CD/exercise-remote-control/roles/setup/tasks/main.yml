@@ -1,0 +1,42 @@
+---
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: true
+
+- name: "Correction before upgrade packages is run"
+  become: yes
+  shell: dpkg --configure -a
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: "install NodeJS"
+  become: yes
+  apt:
+    name: nodejs
+    update_cache: true
+
+- name: "install NPM"
+  become: yes
+  apt:
+    name: npm
+    update_cache: true
+
+- name: "install pm2"
+  shell: npm install pm2 -g
+
+- name: "create a ~/web directory"
+  file:
+    path: ~/web
+    state: directory
+
+- name: "copy index test page from files/index.js to ~/web/index.js"
+  copy:
+    src: index.js
+    dest: ~/web/index.js
+
+- name: "Start the web server using the command pm2 start ~/web/index.js -f"
+  shell: pm2 start ~/web/index.js
